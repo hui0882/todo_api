@@ -1,19 +1,17 @@
 package router
 
-import (
-	"todo-api/controller"
+import "github.com/gin-gonic/gin"
 
-	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
-)
+func RegisterRouter(r *gin.Engine) {
+	r.GET("/health", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"status": "ok",
+		})
+	})
 
-func SetupRouter() *gin.Engine {
-	r := gin.Default()
+	api := r.Group("/api/v1")
+	{
+		registerTestRouter(api)
+	}
 
-	testGroup := r.Group("/test")
-	testGroup.GET("/test", controller.Test)
-
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	return r
 }
