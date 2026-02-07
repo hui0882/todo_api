@@ -1,7 +1,6 @@
 package main
 
 import (
-	_ "todo-api/docs"
 	"todo-api/internal/app"
 	"todo-api/internal/logger"
 )
