@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var Cfg *Config
+var Cfg Config
 
 func LoadConfig() {
 	viper.AddConfigPath(".")

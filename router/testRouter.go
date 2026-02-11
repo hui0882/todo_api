@@ -11,5 +11,6 @@ func registerTestRouter(router *gin.RouterGroup) {
 	{
 		testGroup.GET("/test", controller.Test)
 		testGroup.GET("/test2", controller.Test2)
+		testGroup.POST("/test3", controller.Test3)
 	}
 }
