@@ -23,7 +23,7 @@ func Test2(c *gin.Context) {
 }
 
 func Test3(c *gin.Context) {
-	var userReq req.UserReq
+	var userReq req.UserRegisterReq
 	if err := c.ShouldBind(&userReq); err != nil {
 		response.Fail(c, 500, "请求解析失败")
 		return

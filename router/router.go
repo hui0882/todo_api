@@ -12,6 +12,7 @@ func RegisterRouter(r *gin.Engine) {
 	api := r.Group("/api/v1")
 	{
 		registerTestRouter(api)
+		registerUserRouter(api)
 	}
 
 }
