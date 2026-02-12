@@ -1,6 +1,7 @@
 package service
 
 import (
+	"strconv"
 	"todo-api/internal/logger"
 	"todo-api/model"
 	"todo-api/model/dao"
@@ -24,22 +25,23 @@ func CreateUser(userReq req.UserRegisterReq) error {
 	user := model.User{
 		Username:     userReq.Username,
 		PasswordHash: hashedPassword,
+		Email:        userReq.Email,
 	}
 	return dao.CreateUser(&user)
 }
 
-func LoginUser(userLoginReq req.UserLoginReq) error {
+func LoginUser(userLoginReq req.UserLoginReq) (string, error) {
 	user, err := dao.GetUserByUsername(userLoginReq.Username)
 	if err != nil {
 		logger.Logger.Println("输入的账号或密码错误")
-		return response.Unauthorized
+		return "", response.Unauthorized
 	}
 
 	// 检查密码正确性
 	if !utils.CheckPassword(userLoginReq.Password, user.PasswordHash) {
 		logger.Logger.Println("密码错误")
-		return response.Unauthorized
+		return "", response.Unauthorized
 	}
 
-	return nil
+	return strconv.FormatUint(user.ID, 10), nil
 }
