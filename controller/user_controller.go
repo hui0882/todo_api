@@ -113,3 +113,24 @@ func LogoutUser(c *gin.Context) {
 
 	response.Success(c, "退出登录成功")
 }
+
+func GetLoginUserID(c *gin.Context) {
+	sessionID, err := c.Cookie(constants.CookieSessionID)
+	if err != nil {
+		response.FailWithCode(c, response.Unauthorized)
+		return
+	}
+	sessionManager, exists := c.Get(constants.ContextKeySessionManager)
+	if !exists {
+		logger.Logger.Println("session manager未找到")
+		response.FailWithCode(c, response.ServerError)
+		return
+	}
+	userID, err := sessionManager.(session.SessionManager).GetSession(c.Request.Context(), sessionID)
+	if err != nil {
+		logger.Logger.Println("获取session失败:", err)
+		response.FailWithCode(c, response.Unauthorized)
+		return
+	}
+	response.Success(c, userID)
+}

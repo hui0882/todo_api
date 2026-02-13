@@ -11,5 +11,6 @@ func registerUserRouter(router *gin.RouterGroup) {
 		userRouter.POST("/register", controller.RegisterUser)
 		userRouter.POST("/login", controller.LoginUser)
 		userRouter.POST("/logout", controller.LogoutUser)
+		userRouter.GET("/getLoginUser", controller.GetLoginUserID)
 	}
 }

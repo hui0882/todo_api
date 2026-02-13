@@ -2,6 +2,7 @@ package logger
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -32,8 +33,8 @@ func InitLogger() {
 		MaxAge:     7,
 		Compress:   true,
 	}
-
-	Logger = log.New(logWriter, "", log.LstdFlags)
+	multiWriter := io.MultiWriter(logWriter, os.Stdout)
+	Logger = log.New(multiWriter, "", log.LstdFlags)
 	Logger.Println("日志系统初始化成功，日志文件：", logFileName)
 }
 
