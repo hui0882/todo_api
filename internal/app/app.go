@@ -35,6 +35,9 @@ func SetUp() *gin.Engine {
 	r.Use(middleware.GlobalException())
 	r.Use(middleware.AuthMiddleware(sessionManager))
 
+	corsManager := middleware.NewCorsManager()
+	r.Use(corsManager.CorsHandler())
+
 	// 将sessionManager注入到context中供controller使用
 	r.Use(func(c *gin.Context) {
 		c.Set(constants.ContextKeySessionManager, sessionManager)
