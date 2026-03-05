@@ -8,6 +8,7 @@ import (
 	"todo-api/model/req"
 	"todo-api/response"
 	"todo-api/service"
+	"todo-api/utils"
 )
 
 func RegisterUser(c *gin.Context) {
@@ -115,22 +116,9 @@ func LogoutUser(c *gin.Context) {
 }
 
 func GetLoginUserID(c *gin.Context) {
-	sessionID, err := c.Cookie(constants.CookieSessionID)
+	userID, err := utils.GetLoginUserID(c)
 	if err != nil {
-		response.FailWithCode(c, response.Unauthorized)
-		return
-	}
-	sessionManager, exists := c.Get(constants.ContextKeySessionManager)
-	if !exists {
-		logger.Logger.Println("session manager未找到")
-		response.FailWithCode(c, response.ServerError)
-		return
-	}
-	userID, err := sessionManager.(session.SessionManager).GetSession(c.Request.Context(), sessionID)
-	if err != nil {
-		logger.Logger.Println("获取session失败:", err)
-		response.FailWithCode(c, response.Unauthorized)
-		return
+		logger.Logger.Println("从 session 中获取 userID 失败：", err)
 	}
 	response.Success(c, userID)
 }
