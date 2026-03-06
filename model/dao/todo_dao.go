@@ -15,7 +15,7 @@ func GetTodoById(id uint64, userID uint64) (*model.Todo, error) {
 	return &todo, err
 }
 
-func GetTodoList(userID uint64, status *int, offset, limit int) ([]model.Todo, int64, error) {
+func GetTodoList(userID uint64, status *int8, offset, limit int) ([]model.Todo, int64, error) {
 	var todos []model.Todo
 	var total int64
 

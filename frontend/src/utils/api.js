@@ -1,10 +1,10 @@
 import request from '../utils/request';
-import { getFullUrl } from '../config/api';
+import { getEndpoint } from '../config/api';
 
 // 用户注册
 export const register = (data) => {
   return request({
-    url: getFullUrl('register'),
+    url: getEndpoint('register'),
     method: 'POST',
     data,
   });
@@ -13,7 +13,7 @@ export const register = (data) => {
 // 用户登录
 export const login = (data) => {
   return request({
-    url: getFullUrl('login'),
+    url: getEndpoint('login'),
     method: 'POST',
     data,
   });
@@ -22,7 +22,7 @@ export const login = (data) => {
 // 退出登录
 export const logout = () => {
   return request({
-    url: getFullUrl('logout'),
+    url: getEndpoint('logout'),
     method: 'POST',
   });
 };
@@ -30,7 +30,7 @@ export const logout = () => {
 // 获取 TODO 列表
 export const getTodos = () => {
   return request({
-    url: getFullUrl('getTodos'),
+    url: getEndpoint('getTodos'),
     method: 'GET',
   });
 };
@@ -38,7 +38,7 @@ export const getTodos = () => {
 // 创建 TODO
 export const createTodo = (data) => {
   return request({
-    url: getFullUrl('createTodo'),
+    url: getEndpoint('createTodo'),
     method: 'POST',
     data,
   });
@@ -47,7 +47,7 @@ export const createTodo = (data) => {
 // 更新 TODO
 export const updateTodo = (id, data) => {
   return request({
-    url: getFullUrl('updateTodo', { id }),
+    url: getEndpoint('updateTodo', { id }),
     method: 'PUT',
     data,
   });
@@ -56,7 +56,7 @@ export const updateTodo = (id, data) => {
 // 删除 TODO
 export const deleteTodo = (id) => {
   return request({
-    url: getFullUrl('deleteTodo', { id }),
+    url: getEndpoint('deleteTodo', { id }),
     method: 'DELETE',
   });
 };
@@ -64,7 +64,7 @@ export const deleteTodo = (id) => {
 // 健康检查
 export const healthCheck = () => {
   return request({
-    url: getFullUrl('health'),
+    url: getEndpoint('health'),
     method: 'GET',
   });
 };

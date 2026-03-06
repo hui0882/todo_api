@@ -8,8 +8,8 @@ const DEFAULT_API_CONFIG = {
     logout: '/api/v1/user/logout',
 
     // TODO 相关
-    getTodos: '/api/v1/todos',
-    createTodo: '/api/v1/todos',
+    getTodos: '/api/v1/todos/list',
+    createTodo: '/api/v1/todos/create',
     updateTodo: '/api/v1/todos/:id',
     deleteTodo: '/api/v1/todos/:id',
 
@@ -18,12 +18,16 @@ const DEFAULT_API_CONFIG = {
   }
 };
 
-// 从 localStorage 获取配置
+// 从 localStorage 获取配置，若 endpoints 缺失则用默认值补全
 export const getApiConfig = () => {
   const saved = localStorage.getItem('apiConfig');
   if (saved) {
     try {
-      return JSON.parse(saved);
+      const parsed = JSON.parse(saved);
+      return {
+        baseURL: parsed.baseURL || DEFAULT_API_CONFIG.baseURL,
+        endpoints: { ...DEFAULT_API_CONFIG.endpoints, ...(parsed.endpoints || {}) },
+      };
     } catch (e) {
       console.error('Failed to parse API config:', e);
     }
@@ -36,8 +40,8 @@ export const saveApiConfig = (config) => {
   localStorage.setItem('apiConfig', JSON.stringify(config));
 };
 
-// 获取完整 URL
-export const getFullUrl = (endpointKey, params = {}) => {
+// 获取接口路径（不含 baseURL，由 axios 实例的 baseURL 统一处理）
+export const getEndpoint = (endpointKey, params = {}) => {
   const config = getApiConfig();
   let endpoint = config.endpoints[endpointKey] || '';
 
@@ -46,7 +50,7 @@ export const getFullUrl = (endpointKey, params = {}) => {
     endpoint = endpoint.replace(`:${key}`, params[key]);
   });
 
-  return config.baseURL + endpoint;
+  return endpoint;
 };
 
 // 重置为默认配置

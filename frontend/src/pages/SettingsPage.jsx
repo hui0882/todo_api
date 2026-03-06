@@ -203,7 +203,7 @@ const SettingsPage = () => {
                 label="获取待办列表"
                 rules={[{ required: true, message: '请输入获取待办列表接口路径' }]}
               >
-                <Input placeholder="/api/v1/todos" />
+                <Input placeholder="/api/v1/todos/list" />
               </Form.Item>
 
               <Form.Item
@@ -211,7 +211,7 @@ const SettingsPage = () => {
                 label="创建待办"
                 rules={[{ required: true, message: '请输入创建待办接口路径' }]}
               >
-                <Input placeholder="/api/v1/todos" />
+                <Input placeholder="/api/v1/todos/create" />
               </Form.Item>
 
               <Form.Item

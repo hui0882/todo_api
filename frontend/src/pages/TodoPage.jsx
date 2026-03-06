@@ -43,7 +43,7 @@ const TodoPage = () => {
     setLoading(true);
     try {
       const res = await getTodos();
-      setTodos(res.data || []);
+      setTodos(res.data?.list || []);
     } catch (error) {
       // 如果是 401 错误，会在拦截器中自动跳转登录页
       if (error.response?.status !== 401) {
@@ -65,7 +65,7 @@ const TodoPage = () => {
       form.setFieldsValue({
         title: todo.title,
         description: todo.description,
-        completed: todo.completed,
+        completed: todo.status === 1,
       });
     } else {
       form.resetFields();
@@ -85,12 +85,14 @@ const TodoPage = () => {
     setLoading(true);
     try {
       if (editingTodo) {
-        // 更新
-        await updateTodo(editingTodo.id, values);
+        // 更新：将 completed 布尔转换为 status 整型
+        const { completed, ...rest } = values;
+        await updateTodo(editingTodo.id, { ...rest, status: completed ? 1 : 0 });
         message.success('更新成功');
       } else {
-        // 创建
-        await createTodo(values);
+        // 创建：后端创建接口不需要 completed 字段
+        const { completed, ...createData } = values;
+        await createTodo(createData);
         message.success('创建成功');
       }
       closeModal();
@@ -119,10 +121,8 @@ const TodoPage = () => {
   // 切换完成状态
   const toggleCompleted = async (todo) => {
     try {
-      await updateTodo(todo.id, {
-        ...todo,
-        completed: !todo.completed,
-      });
+      const newStatus = todo.status === 1 ? 0 : 1;
+      await updateTodo(todo.id, { status: newStatus });
       loadTodos();
     } catch (error) {
       // 错误已在拦截器中处理
@@ -221,7 +221,7 @@ const TodoPage = () => {
                 <List.Item.Meta
                   avatar={
                     <Checkbox
-                      checked={todo.completed}
+                      checked={todo.status === 1}
                       onChange={() => toggleCompleted(todo)}
                     />
                   }
@@ -229,14 +229,14 @@ const TodoPage = () => {
                     <div className="flex items-center gap-2">
                       <span
                         className={
-                          todo.completed
+                          todo.status === 1
                             ? 'line-through text-gray-400'
                             : 'text-gray-800'
                         }
                       >
                         {todo.title}
                       </span>
-                      {todo.completed && (
+                      {todo.status === 1 && (
                         <Tag color="success">已完成</Tag>
                       )}
                     </div>
@@ -244,7 +244,7 @@ const TodoPage = () => {
                   description={
                     <span
                       className={
-                        todo.completed
+                        todo.status === 1
                           ? 'line-through text-gray-300'
                           : 'text-gray-600'
                       }

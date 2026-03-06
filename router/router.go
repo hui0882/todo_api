@@ -13,6 +13,7 @@ func RegisterRouter(r *gin.Engine) {
 	{
 		registerTestRouter(api)
 		registerUserRouter(api)
+		registerTodoRouter(api)
 	}
 
 }

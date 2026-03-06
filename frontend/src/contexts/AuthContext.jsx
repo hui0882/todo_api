@@ -5,6 +5,7 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // 从 localStorage 检查登录状态
@@ -18,6 +19,7 @@ export const AuthProvider = ({ children }) => {
         console.error('Failed to parse user data:', e);
       }
     }
+    setLoading(false);
   }, []);
 
   const loginUser = (userData) => {
@@ -33,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, loginUser, logoutUser }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, loading, loginUser, logoutUser }}>
       {children}
     </AuthContext.Provider>
   );
