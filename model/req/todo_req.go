@@ -9,6 +9,7 @@ type TodoCreateReq struct {
 	Priority    *int8      `json:"priority"`    // 0=普通，1=重要，2=紧急，不传默认0
 	DueDate     *time.Time `json:"due_date"`    // 截止日期，可选
 	CategoryID  *uint64    `json:"category_id"` // 所属分类ID，可选
+	RemindAt    *time.Time `json:"remind_at"`   // 提醒时间，可选，允许晚于截止时间
 }
 
 // TodoUpdateReq 更新待办请求
@@ -19,6 +20,7 @@ type TodoUpdateReq struct {
 	Priority    *int8      `json:"priority"`
 	DueDate     *time.Time `json:"due_date"`
 	CategoryID  *uint64    `json:"category_id"` // 所属分类ID，可选
+	RemindAt    *time.Time `json:"remind_at"`   // 提醒时间，可选
 }
 
 // TodoListReq 查询待办列表请求（支持分页和状态过滤）

@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS `todos` (
   `priority`    TINYINT          NOT NULL DEFAULT 0       COMMENT '优先级：0=普通，1=重要，2=紧急',
   `due_date`    DATETIME(3)      DEFAULT NULL             COMMENT '截止日期',
   `category_id` BIGINT UNSIGNED  DEFAULT NULL             COMMENT '所属分类ID，NULL=未分类',
+  `remind_at`   DATETIME(3)      DEFAULT NULL             COMMENT '提醒时间',
   `created_at`  DATETIME(3)      NOT NULL                 COMMENT '创建时间',
   `updated_at`  DATETIME(3)      NOT NULL                 COMMENT '最后更新时间',
   PRIMARY KEY (`id`),

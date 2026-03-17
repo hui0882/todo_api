@@ -34,6 +34,7 @@ import {
   ClockCircleOutlined,
   AppstoreOutlined,
   MoreOutlined,
+  BellOutlined,
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -167,6 +168,7 @@ const TodoPage = () => {
         completed: todo.status === 1,
         due_date: todo.due_date ? dayjs(todo.due_date) : null,
         category_id: todo.category_id || undefined,
+        remind_at: todo.remind_at ? dayjs(todo.remind_at) : null,
       });
     } else {
       form.resetFields();
@@ -185,19 +187,21 @@ const TodoPage = () => {
     setLoading(true);
     try {
       if (editingTodo) {
-        const { completed, due_date, ...rest } = values;
+        const { completed, due_date, remind_at, ...rest } = values;
         const payload = {
           ...rest,
           status: completed ? 1 : 0,
           due_date: due_date ? due_date.toISOString() : null,
+          remind_at: remind_at ? remind_at.toISOString() : null,
         };
         await updateTodo(editingTodo.id, payload);
         message.success('更新成功');
       } else {
-        const { completed, due_date, ...createData } = values;
+        const { completed, due_date, remind_at, ...createData } = values;
         const payload = {
           ...createData,
           due_date: due_date ? due_date.toISOString() : null,
+          remind_at: remind_at ? remind_at.toISOString() : null,
         };
         await createTodo(payload);
         message.success('创建成功');
@@ -605,6 +609,12 @@ const TodoPage = () => {
                               截止：{dayjs(todo.due_date).format('YYYY-MM-DD HH:mm')}
                             </span>
                           )}
+                          {todo.remind_at && (
+                            <span style={{ color: '#722ed1' }}>
+                              <BellOutlined style={{ marginRight: 3 }} />
+                              提醒：{dayjs(todo.remind_at).format('YYYY-MM-DD HH:mm')}
+                            </span>
+                          )}
                         </div>
                       </div>
                     }
@@ -645,6 +655,14 @@ const TodoPage = () => {
                 showTime
                 format="YYYY-MM-DD HH:mm"
                 placeholder="请选择截止时间（可选）"
+                style={{ width: '100%' }}
+              />
+            </Form.Item>
+            <Form.Item name="remind_at" label="提醒时间">
+              <DatePicker
+                showTime
+                format="YYYY-MM-DD HH:mm"
+                placeholder="请选择提醒时间（可选）"
                 style={{ width: '100%' }}
               />
             </Form.Item>

@@ -14,6 +14,8 @@ type Todo struct {
 
 	DueDate *time.Time `gorm:"comment:截止日期" json:"due_date"`
 
+	RemindAt *time.Time `gorm:"comment:提醒时间" json:"remind_at"`
+
 	CategoryID *uint64   `gorm:"index:idx_category_id;comment:所属分类ID" json:"category_id"`
 	Category   *Category `gorm:"foreignKey:CategoryID;constraint:OnDelete:SET NULL" json:"category,omitempty"`
 

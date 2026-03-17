@@ -21,6 +21,7 @@ func CreateTodo(userID string, todoReq req.TodoCreateReq) (*model.Todo, error) {
 		Title:       todoReq.Title,
 		Description: todoReq.Description,
 		DueDate:     todoReq.DueDate,
+		RemindAt:    todoReq.RemindAt,
 		CategoryID:  todoReq.CategoryID,
 	}
 	if todoReq.Priority != nil {
@@ -97,6 +98,9 @@ func UpdateTodo(userID string, todoID uint64, updateReq req.TodoUpdateReq) error
 	}
 	if updateReq.CategoryID != nil {
 		updates["category_id"] = *updateReq.CategoryID
+	}
+	if updateReq.RemindAt != nil {
+		updates["remind_at"] = *updateReq.RemindAt
 	}
 
 	if len(updates) == 0 {
