@@ -68,3 +68,37 @@ export const healthCheck = () => {
     method: 'GET',
   });
 };
+
+// 获取分类列表
+export const getCategories = () => {
+  return request({
+    url: getEndpoint('getCategories'),
+    method: 'GET',
+  });
+};
+
+// 创建分类
+export const createCategory = (data) => {
+  return request({
+    url: getEndpoint('createCategory'),
+    method: 'POST',
+    data,
+  });
+};
+
+// 更新分类
+export const updateCategory = (id, data) => {
+  return request({
+    url: getEndpoint('updateCategory', { id }),
+    method: 'PUT',
+    data,
+  });
+};
+
+// 删除分类
+export const deleteCategory = (id) => {
+  return request({
+    url: getEndpoint('deleteCategory', { id }),
+    method: 'DELETE',
+  });
+};

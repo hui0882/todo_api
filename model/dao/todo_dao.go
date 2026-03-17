@@ -15,22 +15,24 @@ func GetTodoById(id uint64, userID uint64) (*model.Todo, error) {
 	return &todo, err
 }
 
-func GetTodoList(userID uint64, status *int8, offset, limit int) ([]model.Todo, int64, error) {
+func GetTodoList(userID uint64, status *int8, categoryID *uint64, offset, limit int) ([]model.Todo, int64, error) {
 	var todos []model.Todo
 	var total int64
 
 	query := database.Db.Model(&model.Todo{}).Where("user_id = ?", userID)
 	if status != nil {
-		query = query.Where("statue = ?", *status)
+		query = query.Where("status = ?", *status)
+	}
+	if categoryID != nil {
+		query = query.Where("category_id = ?", *categoryID)
 	}
 
 	if err := query.Count(&total).Error; err != nil {
 		return nil, 0, err
 	}
 
-	err := query.Order("created_at DESC").Offset(offset).Limit(limit).Find(&todos).Error
+	err := query.Preload("Category").Order("created_at DESC").Offset(offset).Limit(limit).Find(&todos).Error
 	return todos, total, err
-
 }
 
 func UpdateTodo(id, userID uint64, updates map[string]interface{}) error {

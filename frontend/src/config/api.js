@@ -13,6 +13,12 @@ const DEFAULT_API_CONFIG = {
     updateTodo: '/api/v1/todos/:id',
     deleteTodo: '/api/v1/todos/:id',
 
+    // 分类相关
+    getCategories:  '/api/v1/categories/list',
+    createCategory: '/api/v1/categories/create',
+    updateCategory: '/api/v1/categories/:id',
+    deleteCategory: '/api/v1/categories/:id',
+
     // 健康检查
     health: '/health'
   }

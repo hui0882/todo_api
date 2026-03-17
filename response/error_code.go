@@ -32,6 +32,11 @@ var (
 	NotFound         = CommonError{404, "资源不存在"}
 	AuthorExistError = CommonError{409, "用户名已存在"}
 
+	// 分类相关错误
+	CategoryNotFound  = CommonError{4041, "分类不存在"}
+	CategoryForbidden = CommonError{4031, "无权操作此分类"}
+	PresetNotEditable = CommonError{4032, "预置分类不可修改或删除"}
+
 	// 服务器错误 5xx
 	ServerError   = CommonError{500, "服务器内部错误"}
 	DatabaseError = CommonError{501, "数据库操作失败"}

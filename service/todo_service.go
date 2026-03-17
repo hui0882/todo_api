@@ -21,6 +21,7 @@ func CreateTodo(userID string, todoReq req.TodoCreateReq) (*model.Todo, error) {
 		Title:       todoReq.Title,
 		Description: todoReq.Description,
 		DueDate:     todoReq.DueDate,
+		CategoryID:  todoReq.CategoryID,
 	}
 	if todoReq.Priority != nil {
 		todo.Priority = *todoReq.Priority
@@ -51,7 +52,7 @@ func GetTodoList(userID string, listReq req.TodoListReq) ([]model.Todo, int64, e
 	}
 	offset := (page - 1) * size
 
-	todos, total, err := dao.GetTodoList(uid, listReq.Status, offset, size)
+	todos, total, err := dao.GetTodoList(uid, listReq.Status, listReq.CategoryID, offset, size)
 	if err != nil {
 		logger.Logger.Println("查询列表失败：", err)
 		return nil, 0, response.DatabaseError
@@ -93,6 +94,9 @@ func UpdateTodo(userID string, todoID uint64, updateReq req.TodoUpdateReq) error
 	}
 	if updateReq.DueDate != nil {
 		updates["due_date"] = *updateReq.DueDate
+	}
+	if updateReq.CategoryID != nil {
+		updates["category_id"] = *updateReq.CategoryID
 	}
 
 	if len(updates) == 0 {
