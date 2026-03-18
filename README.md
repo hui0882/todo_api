@@ -1,6 +1,6 @@
 # TODO API
 
-一个基于 Gin 框架开发的企业级 RESTful API 服务，提供待办事项管理功能。
+一个基于 Gin 框架开发的企业级 RESTful API 服务，提供待办事项管理功能。 
 
 ## 项目简介
 
