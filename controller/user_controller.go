@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"todo-api/internal/constants"
 	"todo-api/internal/logger"
@@ -65,13 +67,14 @@ func LoginUser(c *gin.Context) {
 	}
 
 	// 设置cookie
+	c.SetSameSite(http.SameSiteNoneMode)
 	c.SetCookie(
 		constants.CookieSessionID,
 		sessionID,
 		constants.DefaultSessionMaxAge,
 		"/",
 		"",
-		false,
+		true,
 		true, // HttpOnly
 	)
 
@@ -102,13 +105,14 @@ func LogoutUser(c *gin.Context) {
 	}
 
 	// 清除cookie
+	c.SetSameSite(http.SameSiteNoneMode)
 	c.SetCookie(
 		constants.CookieSessionID,
 		"",
 		-1,
 		"/",
 		"",
-		false,
+		true,
 		true,
 	)
 

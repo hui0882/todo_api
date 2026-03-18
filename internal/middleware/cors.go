@@ -15,7 +15,7 @@ type CorsManager struct {
 
 func NewCorsManager() *CorsManager {
 	return &CorsManager{
-		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowOrigins:     []string{"http://localhost:3000", "https://hui0882.github.io"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		AllowCredentials: true,
