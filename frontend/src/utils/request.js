@@ -41,7 +41,7 @@ request.interceptors.response.use(
         case 401:
           message.error('未登录或登录已过期，请重新登录');
           setTimeout(() => {
-            window.location.href = '/login';
+            window.location.href = '/#/login';
           }, 1000);
           break;
         case 403:
